@@ -13,3 +13,4 @@
 .externalNativeBuild
 .cxx
 local.properties
+/app/src/main/java/project/android/pocketpods/podcasts/utilities/Constants.kt
