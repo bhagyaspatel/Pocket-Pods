@@ -1,4 +1,4 @@
-package project.android.pocketpods
+package project.android.pocketpods.podcasts.presentation
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
