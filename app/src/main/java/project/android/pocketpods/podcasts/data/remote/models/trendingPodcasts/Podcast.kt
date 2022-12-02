@@ -18,3 +18,4 @@ data class Podcast(
     val type: String,
     val website: String
 )
+
