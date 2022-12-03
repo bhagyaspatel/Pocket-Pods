@@ -1,43 +1,46 @@
 package project.android.pocketpods.podcasts.presentation
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.LifecycleOwner
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import dagger.hilt.android.AndroidEntryPoint
+import project.android.pocketpods.podcasts.presentation.screens.PodcastGenreSelectionScreen
+import project.android.pocketpods.podcasts.presentation.viewmodel.MainViewModel
 import project.android.pocketpods.ui.theme.PocketPodsTheme
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    private val TAG = "Main_activity"
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             PocketPodsTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colors.background
-                ) {
-                    Greeting("Android")
-                }
+                PocketPods()
             }
         }
     }
-}
 
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
+    @Composable
+    private fun PocketPods() {
+        val navController : NavHostController = rememberNavController()
+        NavHost(navController = navController, startDestination = "homepage"){
 
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    PocketPodsTheme {
-        Greeting("Android")
+            composable(route = "homepage") {
+                val viewModel: MainViewModel = hiltViewModel()
+                viewModel.getGenre()
+
+                PodcastGenreSelectionScreen(viewModel.genre.value)
+            }
+        }
     }
 }
